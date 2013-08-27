@@ -29,6 +29,9 @@ private:
 	//Hash Table Size
 	unsigned int table_size;
 	
+	//Number of elements in our table
+	unsigned int num_elements;
+
 	unsigned int getHash(const cv::Mat& image) {
 		//Create a 8x8 version of our image.
 		//Don't worry about it scaling correctly.
@@ -50,6 +53,7 @@ private:
 public:
 	pHash(unsigned int size) {
 		table_size = size;
+		num_elements = 0;
 		// Initialize our Hash Table data for our given table size
 		my_data = new T[table_size];
 	}
@@ -57,31 +61,88 @@ public:
 		delete[] my_data;
 	}
 
-	void set(const cv::Mat& im, const T& val) {
-		//Calculate our index with our hashing function
-		unsigned int index = getHash(im);
-		keys[index] = im;
-		std::cout << "Set: " << index << " to: " << val << std::endl;
-		my_data[index] = val;
+	pHash operator= (pHash<T>
+
+	/**************************************************************************
+	Iterators:
+		- begin      Return iterator to beginning
+		- end        Return iterator to end
+		- rbegin     Return revsere iterator to reverse beginning
+		- rend       Return reverse iterator to reverse end
+		- cbegin     Return Const iterator to beginning
+		- cend       Return Const iterator to end
+		- crbegin    Return Const reverse iterator to reverse beginning
+		- crend      Return Const reverse iterator to reverse end
+	**************************************************************************/
+
+	/**************************************************************************
+	Capacity:
+		- empty      Returns True if hash is empty
+		- size		 Returns number of elements in hash
+		- max_size   Returns size of the hash table
+	**************************************************************************/
+	// Returns whether the hash is empty or not
+	bool empty() {
+		if (num_elements == 0)
+			return true;
+		else
+			return false;
 	}
 
-	T get(const cv::Mat& im) {
+	// How many elements we have in our hash
+	unsigned int size() {
+		return num_elements;
+	}
+
+	// Total size of the table
+	unsigned int max_size() {
+		return table_size;
+	}
+
+	/**************************************************************************
+	Element access:
+		- operator[] Access Element (const or not, depending 
+					 on pHash declaration
+		- at         Access Element
+	**************************************************************************/
+
+	T& at(const cv::Mat& im) {
 		return my_data[getHash(im)];
 	}
 
-	void remove(const cv::Mat& im) {
+	// Non-const version of subscript operator
+	T& operator[] (const cv::Mat& im) {
+		return at(im); 
+	}
+
+	// Const version of subscript operator
+	const T& operator[] (const cv::Mat& im) const {
+		return at(im); 
+	}
+
+	/**************************************************************************
+	Modifiers:
+		- Insert
+		- Erase
+		- Swap
+		- Clear
+		- Emplace
+		- Emplace_hint
+	**************************************************************************/
+	
+	// Insert 
+
+	void erase(const cv::Mat& im) {
 		my_data[getHash(im)] = NULL;
 		keys.erase(im);	
 	}
+
+	/*****************************************************************************
+	RANDOM
+	*****************************************************************************/
 	
-	// Currently appears broken. Either that or I don't know how to properly iterate through Maps
-	 std::map<unsigned int, cv::Mat> getKeys() {
+	// Returns a map with the keys and images that we are using.
+	std::map<unsigned int, cv::Mat> getKeys() {
 		return keys;
 	}
-
-	// Syntactic sugar for get
-	T operator[] (const cv::Mat& im) {
-		return get(im);
-	}
-
 };
