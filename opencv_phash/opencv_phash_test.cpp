@@ -24,8 +24,8 @@ int main()
 	pHash<int> hash(50);
 	
 	//Put two test images in the hash
-	hash.set(hawaii, 5);
-	hash.set(senior, 10);
+	hash[hawaii] = 10;
+	hash[senior] = 10;
 
 	hash.at(senior) = 25;
 
@@ -40,9 +40,8 @@ int main()
 	
 	cout<<hash[hawaii_2]<<endl;
 
-	//Test getKeys, currently appears either broken or I need to learn to iterate through Maps
-	Mat temp;
-	map<unsigned int, Mat> key_vals = hash.getKeys();
+	cout<<hash.size()<<endl;
+	cout<<hash.max_size()<<endl;
 
 	cin.get();
 	cin.ignore();

@@ -57,11 +57,17 @@ public:
 		// Initialize our Hash Table data for our given table size
 		my_data = new T[table_size];
 	}
+
 	~pHash() {
 		delete[] my_data;
 	}
 
-	pHash operator= (pHash<T>
+	pHash operator= (pHash<T> second) {
+		// Use iterators to copy seconds data into first.
+		// This should take care of changing the number of
+		// elements we say is in the hash
+		this.table_size = second.max_size();
+	}
 
 	/**************************************************************************
 	Iterators:
@@ -107,6 +113,11 @@ public:
 	**************************************************************************/
 
 	T& at(const cv::Mat& im) {
+		T data = my_data[getHash(im)];
+		// Doesn't work currently. How do I check if an index of an array
+		// of a templated type was never set...
+		if (data == NULL)
+			num_elements++;
 		return my_data[getHash(im)];
 	}
 
