@@ -33,7 +33,8 @@ int main()
 	cout<<hash.at(hawaii)<<endl;
 	cout<<hash.at(senior)<<endl;
 	
-	//Test that with a different image object of the same image, it pulls up the correct data
+	// Test that with a different image object of the same image, 
+	// it still pulls up the correct data
 	cout<<hash[hawaii_2]<<endl;
 
 	hash[hawaii_2] = 15;

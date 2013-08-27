@@ -3,17 +3,21 @@
 /*	Author: Ben Caine
 	Date: 8/22/2013
 
-	An educational and experimental Perceptual Hash Library for use with OpenCV Mat objects.
+	An educational and experimental Perceptual Hash Library for use with 
+	OpenCV Mat objects.
 
-	If you have comments or suggestions on ways to improve this code, notice errors or have questions,
-	feel free to contact me. This is for education only, so feedback is greatly appreciated.
+	If you have comments or suggestions on ways to improve this code, notice
+	errors or have questions, feel free to contact me. This is for education
+	only, so feedback is greatly appreciated.
 	
 	Current Todo's:
 	- Handle Collisions
-	- Implement a hash[image_object] = DataType style syntax for assignments of new hashes
+	- Implement a hash[image_object] = DataType style syntax for assignments of
+	  new hashes
 	- Auto-resizing?
 	- Possibly move getHash function into its own source file
-	- Possibly create a new getHash function using Discrete Cosine Transformations for more flexibility
+	- Possibly create a new getHash function using Discrete Cosine
+	  Transformations for more flexibility
 	- Pay attention to coding standards, spend time working on efficiency.
 */
 template <typename T>
@@ -44,7 +48,7 @@ private:
 		for(int x=0; x<8; x++) {
 			for(int y=0; y<8; y++) {
 				hash_val <<= 1;
-				hash_val |= 1*( static_cast<double>(gray.at<uchar>(x,y)) >= avg );
+				hash_val |= 1*(static_cast<double>(gray.at<uchar>(x,y))>=avg );
 			}
 		}
 		return hash_val % table_size;
@@ -148,9 +152,9 @@ public:
 		keys.erase(im);	
 	}
 
-	/*****************************************************************************
+	/*************************************************************************
 	RANDOM
-	*****************************************************************************/
+	**************************************************************************/
 	
 	// Returns a map with the keys and images that we are using.
 	std::map<unsigned int, cv::Mat> getKeys() {
