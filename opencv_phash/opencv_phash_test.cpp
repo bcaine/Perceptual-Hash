@@ -12,7 +12,9 @@ using namespace std;
 	Date: 8/22/2013
 
 	These are some basic, ugly, purely functional tests for my pHash library to
-	check that these functions work in the naive case 
+	check that these functions work in the naive case. 
+
+	Someday proper unit tests will be added...
 */
 int main()
 {
@@ -41,8 +43,19 @@ int main()
 	
 	cout<<hash[hawaii_2]<<endl;
 
+	cout<<"Size and Max Size"<<endl;
 	cout<<hash.size()<<endl;
 	cout<<hash.max_size()<<endl;
+
+	cout<<"Erasing Hawaii, size should be 1"<<endl;
+	hash.erase(hawaii_2);
+
+	cout<<hash.size()<<endl;
+
+	cout<<"Clearing"<<endl;
+	hash.clear();
+
+	cout<<hash[hawaii_2]<<endl;
 
 	cin.get();
 	cin.ignore();

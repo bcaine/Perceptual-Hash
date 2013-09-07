@@ -4,7 +4,8 @@
 	Date: 8/22/2013
 
 	An educational and experimental Perceptual Hash Library for use with 
-	OpenCV Mat objects.
+	OpenCV Mat objects. Many of its capabilities are based off the STL
+	unordered_map library.
 
 	If you have comments or suggestions on ways to improve this code, notice
 	errors or have questions, feel free to contact me. This is for education
@@ -12,8 +13,6 @@
 	
 	Current Todo's:
 	- Handle Collisions
-	- Implement a hash[image_object] = DataType style syntax for assignments of
-	  new hashes
 	- Auto-resizing?
 	- Possibly move getHash function into its own source file
 	- Possibly create a new getHash function using Discrete Cosine
@@ -27,8 +26,8 @@ private:
 	//Our generic data
 	T* my_data;
 
-	// A storage of our Key vals and Images
-	std::map<unsigned int, cv::Mat> keys;
+	// A reverse of our data array (image is stored at hash value)
+	cv::Mat* keys;
 
 	//Hash Table Size
 	unsigned int table_size;
@@ -55,35 +54,20 @@ private:
 	}
 	
 public:
+
 	pHash(unsigned int size) {
 		table_size = size;
 		num_elements = 0;
 		// Initialize our Hash Table data for our given table size
 		my_data = new T[table_size];
+		// Our Images that we are using for keys
+		keys = new cv::Mat[table_size];
 	}
 
 	~pHash() {
 		delete[] my_data;
+		delete[] keys;
 	}
-
-	pHash operator= (pHash<T> second) {
-		// Use iterators to copy seconds data into first.
-		// This should take care of changing the number of
-		// elements we say is in the hash
-		this.table_size = second.max_size();
-	}
-
-	/**************************************************************************
-	Iterators:
-		- begin      Return iterator to beginning
-		- end        Return iterator to end
-		- rbegin     Return revsere iterator to reverse beginning
-		- rend       Return reverse iterator to reverse end
-		- cbegin     Return Const iterator to beginning
-		- cend       Return Const iterator to end
-		- crbegin    Return Const reverse iterator to reverse beginning
-		- crend      Return Const reverse iterator to reverse end
-	**************************************************************************/
 
 	/**************************************************************************
 	Capacity:
@@ -93,10 +77,7 @@ public:
 	**************************************************************************/
 	// Returns whether the hash is empty or not
 	bool empty() {
-		if (num_elements == 0)
-			return true;
-		else
-			return false;
+		return (num_elements == 0);
 	}
 
 	// How many elements we have in our hash
@@ -117,12 +98,12 @@ public:
 	**************************************************************************/
 
 	T& at(const cv::Mat& im) {
-		T data = my_data[getHash(im)];
-		// Doesn't work currently. How do I check if an index of an array
-		// of a templated type was never set...
-		if (data == NULL)
+		unsigned int location = getHash(im);
+		if (keys[location].empty()) {
+			keys[location] = im;
 			num_elements++;
-		return my_data[getHash(im)];
+		}
+		return my_data[location];
 	}
 
 	// Non-const version of subscript operator
@@ -137,27 +118,22 @@ public:
 
 	/**************************************************************************
 	Modifiers:
-		- Insert
 		- Erase
-		- Swap
 		- Clear
-		- Emplace
-		- Emplace_hint
 	**************************************************************************/
-	
-	// Insert 
 
 	void erase(const cv::Mat& im) {
-		my_data[getHash(im)] = NULL;
-		keys.erase(im);	
+		unsigned int location = getHash(im);
+		my_data[location] = NULL;
+		keys[location] = NULL;
+		num_elements--;
 	}
 
-	/*************************************************************************
-	RANDOM
-	**************************************************************************/
-	
-	// Returns a map with the keys and images that we are using.
-	std::map<unsigned int, cv::Mat> getKeys() {
-		return keys;
+	void clear() {
+		for(int i=0; i < table_size; i++) {
+			my_data[i] = NULL;
+			keys[i] = NULL;
+		}
+		num_elements = 0;
 	}
 };
