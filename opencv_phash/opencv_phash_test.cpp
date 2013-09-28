@@ -22,7 +22,7 @@ int main()
 	Mat senior = imread("C://Development//testimages/senior_pic.jpg");
 	Mat hawaii_2 = imread("C://Development//testimages//hawaii.jpg");
 
-	// Init a pHash of size 50 to take Strings as their datatype
+	// Init a pHash of size 50 to take Ints as their datatype
 	pHash<int> hash(50);
 	
 	//Put two test images in the hash
