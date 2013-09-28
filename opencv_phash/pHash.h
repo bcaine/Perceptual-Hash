@@ -120,8 +120,8 @@ unsigned int pHash<T>::getHash(const cv::Mat& image)
 	cv::cvtColor(smaller, gray, CV_BGR2GRAY);
 	// Calculate the scalar average of the pixels;
 	double avg = mean(gray)[0];
-	// Though the largest expected size should be around 32 bits
-	// It can be larger, so we should just do a 64 bit int
+	// The largest possible size is somewhere bigger than 32 bits
+	// and smaller than 64 bits.
 	unsigned long long hash_val = 0;
 	// If the 
 	for(int x=0; x<8; x++) {
