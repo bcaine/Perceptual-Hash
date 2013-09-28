@@ -1,5 +1,4 @@
 #include <opencv2/imgproc/imgproc.hpp>
-#include <map>
 /*	Author: Ben Caine
 	Date: 8/22/2013
 
