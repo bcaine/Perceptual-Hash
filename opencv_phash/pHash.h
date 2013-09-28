@@ -14,10 +14,9 @@
 	Current Todo's:
 	- Handle Collisions
 	- Auto-resizing?
-	- Possibly move getHash function into its own source file
+	- Iterators!
 	- Possibly create a new getHash function using Discrete Cosine
-	  Transformations for more flexibility
-	- Pay attention to coding standards, spend time working on efficiency.
+	  Transformations for more flexibility between image variations
 */
 template <typename T>
 
