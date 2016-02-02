@@ -26,11 +26,11 @@ template <typename T>
 
 class phash {
   private:
-    std::vector<T*> data;
+    std::vector<T> data;
     std::set<unsigned int> used_indices;
 
     // A reverse of our data array (image is stored at hash value)
-    std::vector<cv::Mat*> keys;
+    std::vector<cv::Mat> keys;
 
     unsigned int table_size;
     unsigned int num_elements;
@@ -149,7 +149,7 @@ T& phash<T>::at(const cv::Mat& im) {
         keys[location] = &copy;
         num_elements++;
     }
-    return *data[location];
+    return data[location];
 }
 
 #endif // PHASH_HPP
