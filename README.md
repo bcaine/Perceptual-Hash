@@ -9,6 +9,7 @@ The Perceptual Hashing algorithm implemented is described here:
 http://www.hackerfactor.com/blog/?/archives/432-Looks-Like-It.html
 
 Todo's:
+
 	- Implement a hash[image_object] = DataType style syntax for assignments of new hashes
 	- Auto-resizing?
 	- Possibly create a new getHash function using Discrete Cosine Transformations for more flexibility
