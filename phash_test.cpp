@@ -1,63 +1,69 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include "pHash.h"
-
+#include "phash.hpp"
 #include <iostream>
 
 using namespace cv;
 using namespace std;
 
-/*	
+/*
 	Author: Ben Caine
 	Date: 8/22/2013
 
-	These are some basic, ugly, purely functional tests for my pHash library to
-	check that these functions work in the naive case. 
+	These are some basic, ugly, purely functional tests for my phash
+	library to check that these functions work in the naive case.
 
 	Someday proper unit tests will be added...
 */
-int main()
-{
-	Mat hawaii = imread("C://Development//testimages//hawaii.jpg");
-	Mat senior = imread("C://Development//testimages/senior_pic.jpg");
-	Mat hawaii_2 = imread("C://Development//testimages//hawaii.jpg");
+int main() {
+    Mat lenna = imread("images/lenna.jpg");
+    Mat cameraman = imread("images/cameraman.png");
+    Mat lenna_copy = imread("images/lenna.jpg");
 
-	// Init a pHash of size 50 to take Ints as their datatype
-	pHash<int> hash(50);
-	
-	//Put two test images in the hash
-	hash[hawaii] = 10;
-	hash[senior] = 10;
+    // Init a pHash of size 50 to take strings as their datatype
+    phash<string> hash(50);
 
-	hash.at(senior) = 25;
+    // Put two test images in the hash
+    hash[lenna] = "Hello Lenna!";
+    hash[cameraman] = "Hey, what's up Cameraman";
 
-	//Output the strings we saved
-	cout<<hash.at(hawaii)<<endl;
-	cout<<hash.at(senior)<<endl;
-	
-	// Test that with a different image object of the same image, 
-	// it still pulls up the correct data
-	cout<<hash[hawaii_2]<<endl;
+    // Test at(img) function too
+    hash.at(cameraman) = "Changing things up, Mr. Cameraman";
 
-	hash[hawaii_2] = 15;
-	
-	cout<<hash[hawaii_2]<<endl;
+    assert(hash.size() == 2);
 
-	cout<<"Size and Max Size"<<endl;
-	cout<<hash.size()<<endl;
-	cout<<hash.max_size()<<endl;
+    // Output the strings we saved
+    cout<<hash.at(lenna)<<endl;
+    cout<<hash.at(cameraman)<<endl;
 
-	cout<<"Erasing Hawaii, size should be 1"<<endl;
-	hash.erase(hawaii_2);
+    // Test that with a different image object of the same image,
+    // it still pulls up the correct data
+    cout<<hash[lenna_copy]<<endl;
 
-	cout<<hash.size()<<endl;
+    assert(hash[lenna] == hash[lenna_copy]);
 
-	cout<<"Clearing"<<endl;
-	hash.clear();
+    hash[lenna_copy] = "This is totally a different Lenna...";
 
-	cout<<hash[hawaii_2]<<endl;
+    cout<<hash[lenna_copy]<<endl;
 
-	cin.get();
-	cin.ignore();
-	return 0;
+    cout<< "Hash Size: " << hash.size() << endl;
+    cout<< "Hash Max Size: " << hash.max_size() << endl;
+
+    cout<<"Erasing Lenna (Copy), size should be 1 now"<<endl;
+    hash.erase(lenna_copy);
+
+    assert(hash.size() == 1);
+
+    cout<< "Hash Size: " << hash.size() << endl;
+
+    cout<<"Clearing"<<endl;
+    hash.clear();
+
+    assert(hash.size() == 0);
+
+    cout<<hash[lenna_copy]<<endl;
+
+    cin.get();
+    cin.ignore();
+    return 0;
 }
