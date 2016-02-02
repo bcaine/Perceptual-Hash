@@ -1,5 +1,5 @@
 # Perceptual Hashing
-### Header only library using OpenCV
+##### Header only library using OpenCV
 
 This is an experimental and educational attempt at a Perceptual Hashing Library
 written in C++ using OpenCV Mat objects as keys, and an abstract Datatype as a value.
